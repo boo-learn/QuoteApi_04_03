@@ -2,6 +2,7 @@ from api import app, db, request
 from api.models.author import AuthorModel
 from api.models.quote import QuoteModel
 from api.schemas.quote import quote_schema, quotes_schema
+from api import auth
 
 
 @app.route('/quotes', methods=["GET"])
@@ -26,7 +27,9 @@ def get_quotes_by_id(quote_id):
 
 
 @app.route('/authors/<int:author_id>/quotes', methods=["POST"])
+@auth.login_required
 def create_quote(author_id):
+    print("user = ", auth.current_user())
     quote_data = request.json
     author = AuthorModel.query.get(author_id)
     if author is None:
