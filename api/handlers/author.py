@@ -2,6 +2,7 @@ from api import app, db, request
 from api.models.quote import QuoteModel
 from api.models.author import AuthorModel
 from api.schemas.author import author_schema, authors_schema
+from marshmallow import ValidationError
 
 
 # Сериализация:
@@ -24,8 +25,13 @@ def get_author_by_id(author_id):
 
 @app.route('/authors', methods=["POST"])
 def create_author():
-    author_data = request.json
-    author = AuthorModel(author_data["name"])
+    json_data = request.json
+    try:
+        author_data = author_schema.load(json_data)
+    except ValidationError as err:
+        return err.messages, 422
+
+    author = AuthorModel(**author_data)
     db.session.add(author)
     db.session.commit()
     return author_schema.dump(author), 201
