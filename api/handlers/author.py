@@ -33,8 +33,9 @@ def create_author():
         return err.messages, 422
 
     author = AuthorModel(**author_data)
-    db.session.add(author)
-    db.session.commit()
+    author.save()
+    # db.session.add(author)
+    # db.session.commit()
     return author_schema.dump(author), 201
 
 

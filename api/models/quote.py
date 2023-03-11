@@ -11,6 +11,10 @@ class QuoteModel(db.Model):
         self.author_id = author.id
         self.text = text
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     # def to_dict(self):
     #     return {
     #         "id": self.id,

@@ -7,6 +7,10 @@ class AuthorModel(db.Model):
     surname = db.Column(db.String(32), nullable=False, server_default="Иванов")
     quotes = db.relationship('QuoteModel', backref='author', lazy='dynamic')
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     # def __init__(self, name):
     #     self.name = name
 

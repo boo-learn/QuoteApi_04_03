@@ -27,7 +27,8 @@ def create_user():
         return err.messages, 422
 
     user = UserModel(**user_data)
-    db.session.add(user)
-    db.session.commit()
+    user.save()
+    # db.session.add(user)
+    # db.session.commit()
     return user_schema.dump(user), 201
 

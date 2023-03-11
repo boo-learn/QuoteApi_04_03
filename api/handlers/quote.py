@@ -36,8 +36,9 @@ def create_quote(author_id):
         return {"Error": f"Author id={author_id} not found"}, 404
 
     quote = QuoteModel(author, quote_data["text"])
-    db.session.add(quote)
-    db.session.commit()
+    quote.save()
+    # db.session.add(quote)
+    # db.session.commit()
     return quote_schema.dump(quote), 201
 
 

@@ -23,6 +23,10 @@ class UserModel(db.Model):
         s = URLSafeSerializer(Config.SECRET_KEY)
         return s.dumps({'id': self.id})
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     @staticmethod
     def verify_auth_token(token):
         s = URLSafeSerializer(Config.SECRET_KEY)
